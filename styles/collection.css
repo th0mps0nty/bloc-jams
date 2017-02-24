@@ -9,6 +9,10 @@
  .album-covers {
      position: relative;
  }
+
+.column {
+    float: left;
+}
  
  .collection-album-container {
      position: relative;
