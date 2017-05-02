@@ -5,8 +5,7 @@ var albumPicasso = {
     label: 'Cubism',
     year: '1881',
     albumArtUrl: 'assets/images/album_covers/01.png',
-    songs: [
-        {
+    songs: [{
             title: 'Blue',
             duration: '4:26'
         },
@@ -26,7 +25,7 @@ var albumPicasso = {
             title: 'Magenta',
             duration: '2:15'
         }
- ]
+    ]
 };
 
 // Another Example Album
@@ -36,8 +35,7 @@ var albumMarconi = {
     label: 'EM',
     year: '1909',
     albumArtUrl: 'assets/images/album_covers/20.png',
-    songs: [
-        {
+    songs: [{
             title: 'Hello, Operator?',
             duration: '1:01'
         },
@@ -57,10 +55,10 @@ var albumMarconi = {
             title: 'Wrong phone number',
             duration: '2:15'
         }
- ]
+    ]
 };
 
-var createSongRow = function (songNumber, songName, songLength) {
+var createSongRow = function(songNumber, songName, songLength) {
     var template =
         '<tr class="album-view-song-item">' +
         '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>' +
@@ -68,33 +66,34 @@ var createSongRow = function (songNumber, songName, songLength) {
         '  <td class="song-item-duration">' + songLength + '</td>' +
         '</tr>';
 
-    return template;
+    return $(template);
 };
 
-var setCurrentAlbum = function (album) {
+var setCurrentAlbum = function(album) {
     // #1
-    var albumTitle = document.getElementsByClassName('album-view-title')[0];
-    var albumArtist = document.getElementsByClassName('album-view-artist')[0];
-    var albumReleaseInfo = document.getElementsByClassName('album-view-release-info')[0];
-    var albumImage = document.getElementsByClassName('album-cover-art')[0];
-    var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
+    var $albumTitle = $('.album-view-title');
+    var $albumArtist = $('.album-view-artist');
+    var $albumReleaseInfo = $('.album-view-release-info');
+    var $albumImage = $('.album-cover-art');
+    var $albumSongList = $('.album-view-song-list');
 
     // #2
-    albumTitle.firstChild.nodeValue = album.title;
-    albumArtist.firstChild.nodeValue = album.artist;
-    albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
-    albumImage.setAttribute('src', album.albumArtUrl);
+    $albumTitle.text(album.title);
+    $albumArtist.text(album.artist);
+    $albumReleaseInfo.text(album.year + ' ' + album.label);
+    $albumImage.attr('src', album.albumArtUrl);
 
     // #3
-    albumSongList.innerHTML = '';
+    $albumSongList.empty();
 
     // #4
     for (var i = 0; i < album.songs.length; i++) {
-        albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
+        var $newRow = createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
+        $albumSongList.append($newRow);
     }
 };
 
-var findParentByClassName = function (element, targetClass) {
+var findParentByClassName = function(element, targetClass) {
     if (element) {
         var currentParent = element.parentElement;
         while (currentParent.className !== targetClass && currentParent.className !== null) {
@@ -104,7 +103,7 @@ var findParentByClassName = function (element, targetClass) {
     }
 };
 
-var getSongItem = function (element) {
+var getSongItem = function(element) {
     switch (element.className) {
         case 'album-song-button':
         case 'ion-play':
@@ -122,7 +121,7 @@ var getSongItem = function (element) {
     }
 };
 
-var clickHandler = function (targetElement) {
+var clickHandler = function(targetElement) {
 
     var songItem = getSongItem(targetElement);
 
@@ -152,10 +151,10 @@ var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause">
 // Store state of playing songs
 var currentlyPlayingSong = null;
 
-window.onload = function () {
+window.onload = function() {
     setCurrentAlbum(albumPicasso);
 
-    songListContainer.addEventListener('mouseover', function (event) {
+    songListContainer.addEventListener('mouseover', function(event) {
         if (event.target.parentElement.className === 'album-view-song-item') {
             var songItem = getSongItem(event.target);
 
@@ -166,7 +165,7 @@ window.onload = function () {
     });
 
     for (var i = 0; i < songRows.length; i++) {
-        songRows[i].addEventListener('mouseleave', function (event) {
+        songRows[i].addEventListener('mouseleave', function(event) {
             // #1
             var songItem = getSongItem(event.target);
             var songItemNumber = songItem.getAttribute('data-song-number');
@@ -177,7 +176,7 @@ window.onload = function () {
             }
         });
 
-        songRows[i].addEventListener('click', function (event) {
+        songRows[i].addEventListener('click', function(event) {
 
             clickHandler(event.target);
         });
