@@ -129,6 +129,19 @@ var updatePlayerBarSong = function() {
   $('.main-controls .play-pause').html(playerBarPauseButton);
 };
 
+var togglePlayFromPlayerBar = function() {
+  var currentlyPlayingCell = getSongNumberCell(currentlyPlayingSongNumber);
+  if (currentSoundFile.isPaused() && $playButton.click) {
+    currentlyPlayingCell.html(pauseButtonTemplate);
+    $playButton.html(playerBarPauseButton);
+    currentSoundFile.play();
+  } else if (!currentSoundFile.isPaused() && $playButton.click) {
+    currentlyPlayingCell.html(playButtonTemplate);
+    $playButton.html(playerBarPlayButton);
+    currentSoundFile.pause();
+  }
+};
+
 var nextSong = function() {
   var currentSongIndex = trackIndex(currentAlbum, currentSongFromAlbum);
   // Note that we're _incrementing_ the song here
@@ -196,9 +209,11 @@ var currentVolume = 80;
 
 var $previousButton = $('.main-controls .previous');
 var $nextButton = $('.main-controls .next');
+var $playButton = $('.main-controls .play-pause');
 
 $(document).ready(function() {
   setCurrentAlbum(albumPicasso);
   $previousButton.click(previousSong);
   $nextButton.click(nextSong);
+  $playButton.click(togglePlayFromPlayerBar);
 });
