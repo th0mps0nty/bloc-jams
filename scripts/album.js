@@ -130,7 +130,7 @@ var setCurrentAlbum = function(album) {
 var setTotalTimeInPlayerBar = function(totalTime) {
   var $totalTimeDiv = $('.seek-control .total-time');
   $totalTimeDiv.text(totalTime);
-}
+};
 
 var filterTimeCode = function(timeInSeconds) {
   var roundedSeconds = Math.floor(Number.parseFloat(timeInSeconds));
